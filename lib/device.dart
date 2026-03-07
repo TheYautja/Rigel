@@ -13,7 +13,7 @@ class Device {
 	
 	
 	Future<bool> load_rom_into_memory() async {
-		var rom = File("AstroDodge.ch8");
+		var rom = File("lib/AstroDodge.ch8");
 		
 		var temp = await rom.readAsBytes();
 		for(int i = 0; i < temp.length; i++){
@@ -25,7 +25,7 @@ class Device {
 	
 	
 	bool print_memory(){
-		for(int i = 0; i < memory.length; i++){
+		for(int i = 0; i < memory.length; i += 10){
 			print(memory[i].toString());
 		}
 		return true;

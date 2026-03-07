@@ -1,8 +1,8 @@
 import "device.dart";	
 
 
-void main(){
+Future<void> main() async {
 	var d = Device();
-	d.load_rom_into_memory();
+	await d.load_rom_into_memory();
 	d.print_memory();
 }
