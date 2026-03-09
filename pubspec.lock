@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  ffi:
+    dependency: transitive
+    description:
+      name: ffi
+      sha256: "13a6ccf6a459a125b3fcdb6ec73bd5ff90822e071207c663bfd1f70062d51d18"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   file:
     dependency: transitive
     description:
@@ -209,6 +217,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  raylib:
+    dependency: "direct main"
+    description:
+      name: raylib
+      sha256: d9adc4932714ceca2be1ebd998aee19160a2b356557c0276db8fa8d3d17fbb1e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   shelf:
     dependency: transitive
     description:
