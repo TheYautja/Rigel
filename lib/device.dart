@@ -6,8 +6,9 @@ class Device {
 	
 	String rom_path = "lib/chiplogo.ch8";
 	Uint8List memory = Uint8List(4096);
-	Uint16List PC = Uint16List(1);
-	Uint16List I = Uint16List(1);
+	static const int ROM_START = 0x200;
+	int PC = ROM_START;
+	int I = 0;
 	Uint16List stack = Uint16List(16);
 	//sound/display timers (60hz/s)
 	Uint8List registers = Uint8List(16);
@@ -32,7 +33,7 @@ class Device {
 		
 		var temp = await rom.readAsBytes();
 		for(int i = 0; i < temp.length; i++){
-			memory[512 + i] = temp[i];
+			memory[ROM_START + i] = temp[i];
 		}
 		
 		return true;
@@ -55,6 +56,25 @@ class Device {
 			}
 		}
 		
+		return true;
+	}
+	
+	
+	int fetch_opcode(){
+		
+		int opcode = memory[PC] << 8 | memory[PC + 1];
+		PC += 2;
+		
+		return opcode;
+	}
+	
+	
+	void printopcode(){
+		print(fetch_opcode().toString());
+	}
+	
+	
+	bool decode_opcode(){
 		return true;
 	}
 	
