@@ -5,18 +5,20 @@ import 'package:flame/camera.dart';
 import 'package:flame/events.dart';
 
 import 'device.dart';
+import 'display.dart';
 
-class Rigel extends FlameGame with TapCallbacks {
+class Rigel extends FlameGame {
 
-  Device d = new Device();
+  Device device = new Device();
+  late Display screen;
+
+  late List<List<bool>> display;
 
   @override
   Future<void> onLoad() async {
-    d.init();
-  }
-
-
-  void generate_display(){
+    await device.init();
+    screen = Display(200, 200, device.display);
+    add(screen);
 
   }
 
