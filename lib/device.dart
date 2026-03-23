@@ -4,7 +4,7 @@ import 'dart:io';
 
 class Device {
 	
-	String rom_path = "lib/chiplogo.ch8";
+	String rom_path = "chiplogo.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
@@ -14,6 +14,13 @@ class Device {
 	Uint8List registers = Uint8List(16);
 	List<List<bool>> display = List.generate(32, (_) => List.filled(64, false));
 	
+
+  Future<void> init () async {
+    load_font_into_memory();
+    load_rom_into_memory();
+  }
+
+
 	static const List<int> font_temp = [
 		0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 		0x20, 0x60, 0x20, 0x20, 0x70, // 1

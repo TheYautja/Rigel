@@ -1,0 +1,1 @@
+ /home/augusto/Desktop/code/mobile/rigel/build/43922bf056c1363498bd8105433879b9/dart_build_result.json: 

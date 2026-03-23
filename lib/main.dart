@@ -1,11 +1,12 @@
-import "device.dart";	
+import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
 
+import "rigel.dart";
 
-Future<void> main() async {
-	var d = Device();
-	d.load_font_into_memory();
-	await d.load_rom_into_memory();
-	d.print_memory();
-	//d.print_display_state();
-	d.decode_opcode();
+void main() {
+	runApp(
+    GameWidget(
+      game: Rigel(),
+    ),
+  );
 }

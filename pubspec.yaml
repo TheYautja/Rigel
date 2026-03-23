@@ -8,6 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  flame: ^1.36.0
   path: ^1.9.0
   raylib: ^0.3.0
 
