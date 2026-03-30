@@ -4,7 +4,7 @@ import 'dart:io';
 
 class Device {
 	
-	String rom_path = "chiplogo.ch8";
+	String romPath = "chiplogo.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
@@ -17,6 +17,12 @@ class Device {
 
   Future<void> init () async {
     load_font_into_memory();
+    turn_on(10, 15);
+    turn_on(13, 15);
+    turn_on(10, 17);
+    turn_on(11, 17);
+    turn_on(12, 17);
+    turn_on(13, 17);
     load_rom_into_memory();
   }
 
@@ -64,7 +70,7 @@ class Device {
 	
 	
 	Future<bool> load_rom_into_memory() async {
-		var rom = File(rom_path);
+		var rom = File(romPath);
 		
 		var temp = await rom.readAsBytes();
 		for(int i = 0; i < temp.length; i++){
@@ -74,6 +80,16 @@ class Device {
 		return true;
 	}
 	
+
+	void turn_on(int x, int y){
+    display[y][x] = true;
+  }
+
+
+  void turn_off(int x, int y){
+    display[y][x] = false;
+  }
+
 	
 	bool print_memory(){
 		

@@ -68,7 +68,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
      NOT IS_SYMLINK "$ENV{DESTDIR}/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/rigel")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/rigel"
-         OLD_RPATH "/home/augusto/Desktop/code/mobile/rigel/linux/flutter/ephemeral:"
+         OLD_RPATH "/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/plugins/window_size:/home/augusto/Desktop/code/mobile/rigel/linux/flutter/ephemeral:"
          NEW_RPATH "$ORIGIN/lib")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/rigel")
@@ -98,6 +98,18 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   file(INSTALL DESTINATION "/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/augusto/Desktop/code/mobile/rigel/linux/flutter/ephemeral/libflutter_linux_gtk.so")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/lib/libwindow_size_plugin.so")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  file(INSTALL DESTINATION "/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/plugins/window_size/libwindow_size_plugin.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -134,6 +146,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/flutter/cmake_install.cmake")
   include("/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/runner/cmake_install.cmake")
+  include("/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/plugins/window_size/cmake_install.cmake")
 
 endif()
 

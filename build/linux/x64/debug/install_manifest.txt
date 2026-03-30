@@ -1,6 +1,7 @@
 /home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/rigel
 /home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/data/icudtl.dat
 /home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/lib/libwindow_size_plugin.so
 /home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/data/flutter_assets/version.json
 /home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
 /home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z

@@ -6,7 +6,7 @@ class Display extends Component {
 
   double width = 0;
   double height = 0;
-  double pixelSize = 10;
+  double pixelSize = 18;
 
   late List<List<bool>> display;
 

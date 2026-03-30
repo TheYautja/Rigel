@@ -256,6 +256,15 @@ runner_IS_TOP_LEVEL:STATIC=OFF
 //Value Computed by CMake
 runner_SOURCE_DIR:STATIC=/home/augusto/Desktop/code/mobile/rigel/linux/runner
 
+//Value Computed by CMake
+window_size_BINARY_DIR:STATIC=/home/augusto/Desktop/code/mobile/rigel/build/linux/x64/debug/plugins/window_size
+
+//Value Computed by CMake
+window_size_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+window_size_SOURCE_DIR:STATIC=/home/augusto/Desktop/code/mobile/rigel/linux/flutter/ephemeral/.plugin_symlinks/window_size/linux
+
 
 ########################
 # INTERNAL cache entries
@@ -345,7 +354,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
