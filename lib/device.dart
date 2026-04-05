@@ -111,6 +111,11 @@ class Device {
 	}
 	
 	
+	void error_message(int opcode){
+    print("error: unrecognized opcode at:" + opcode.toString());
+  }
+
+
 	int fetch_opcode(){
 		
 		int opcode = memory[PC] << 8 | memory[PC + 1];
@@ -121,15 +126,126 @@ class Device {
 	
 	bool decode_opcode(){
 		int opcode = fetch_opcode();
-		switch(opcode){
+		switch(opcode & 0xF000 ){
 
-			
+      case 0x0000:
+          switch(opcode & 0x00FF){
+            case 0x00E0:
+              //clear screen
+              break;
+            case 0x00EE:
+              //pc = adress at the top of the stack, then sub 1 from SP first sub the set
+              break;
+            default:
+              error_message(opcode);
+              break;
+          }
+        break;
 
+      case 0x1000:
+        //set pc to nnn, 0x1nnn with a bitmask
+        break;
+
+      case 0x2000:
+        //The interpreter increments the stack pointer, then puts the current PC on the top of the stack. The PC is then set to nnn.
+        break;
+
+      case 0x3000:
+        //3xkk, if registers[x] == kk increment pc by 2
+        break;
+
+      case 0x4000:
+        //same as previous, but increments pc if different
+        break;
+
+      case 0x5000:
+        //5xyo, if vx == vy increment pc
+        break;
+
+      case 0x6000:
+        //6xkk, puts kk into vx
+        break;
+
+      case 0x7000:
+        //7xkk, increments vx value by kk and store it in vx
+        break;
+
+      case 0x8000: //0x8xyn
+        switch(opcode & 0x000F){
+          case 0x0:
+            //vx = vy
+            break;
+
+          case 0x1:
+            //vx OR vy
+            break;
+
+          case 0x2:
+            //vx AND vy
+            break;
+
+          case 0x3:
+            //vx XOR vy
+            break;
+
+          case 0x4:
+            //vx = vx + vy, set carry = true if the results exceed 8 bits
+            break;
+
+          case 0x5:
+            //vx = vx - vy, if vx > vy, carry flag is set to 1
+            break;
+
+          case 0x6:
+            //bitshifts, see later
+            break;
+
+          case 0x7:
+            //bitshifts, see later
+            break;
+
+          case 0xE:
+            //bitshifts, see later
+            break;
+
+          default:
+            error_message(opcode);
+            break;
+        }
+        break;
+
+			case 0x9000:
+        //9xy0, if vx != vy skip next instruction
+        break;
+
+      case 0xA000:
+        //Annn, I register is set to nnn
+        break;
+
+      case 0xB000:
+        //bnnn, pc is set to nnn plus V[0]
+        break;
+
+      case 0xC000:
+        //The interpreter generates a random number from 0 to 255, which is then ANDed with the value kk. The results are stored in Vx
+        break;
+
+      case 0xD000:
+
+        break;
+
+      case 0xE000:
+
+        break;
+
+      case 0xF000:
+
+        break;
 		}
 		return true;
 	}
-	
-	
+
+
 }
 
 
