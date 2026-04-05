@@ -4,11 +4,12 @@ import 'dart:io';
 
 class Device {
 	
-	String romPath = "chiplogo.ch8";
+	String romPath = "lib/chiplogo.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
 	int I = 0;
+  int SP = 0;
 	Uint16List stack = Uint16List(16);
 	//sound/display timers (60hz/s)
 	Uint8List registers = Uint8List(16);
@@ -16,14 +17,13 @@ class Device {
 	
 
   Future<void> init () async {
-    load_font_into_memory();
-    turn_on(10, 15);
-    turn_on(13, 15);
-    turn_on(10, 17);
-    turn_on(11, 17);
-    turn_on(12, 17);
-    turn_on(13, 17);
-    load_rom_into_memory();
+    await load_font_into_memory();
+    await load_rom_into_memory();
+  }
+
+
+  void cycle(){
+    decode_opcode();
   }
 
 
@@ -49,7 +49,7 @@ class Device {
 	Uint8List font = Uint8List.fromList(font_temp);
 	
 	
-	void load_font_into_memory(){
+	Future<void> load_font_into_memory() async {
 		for(int i = 0; i < font.length; i++){
 			memory[i] = font[i];
 		}
@@ -88,6 +88,26 @@ class Device {
 
   void turn_off(int x, int y){
     display[y][x] = false;
+  }
+
+
+  void clear_screen(){
+    for(int i = 0; i < 32; i++){
+      for(int j = 0; j < 64; j++){
+        display[i][j] = false;
+      }
+    }
+  }
+
+
+  void draw(int Vx, int Vy, int nibble){
+    //Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
+
+    //The interpreter reads n bytes from memory, starting at the address stored in I. These bytes are then displayed as sprites on screen at coordinates (Vx, Vy)
+    //Sprites are XORed onto the existing screen. If this causes any pixels to be erased, VF is set to 1, otherwise it is set to 0. If the sprite is positioned so
+    //part of it is outside the coordinates of the display, it wraps around to the opposite side of the screen. See instruction 8xy3 for more information on XOR,
+    //and section 2.4, Display, for more information on the Chip-8 screen and sprites.
+
   }
 
 	
@@ -131,7 +151,7 @@ class Device {
       case 0x0000:
           switch(opcode & 0x00FF){
             case 0x00E0:
-              //clear screen
+              clear_screen();
               break;
             case 0x00EE:
               //pc = adress at the top of the stack, then sub 1 from SP first sub the set
@@ -143,7 +163,9 @@ class Device {
         break;
 
       case 0x1000:
-        //set pc to nnn, 0x1nnn with a bitmask
+        //set ps to nnn
+        int nnn = opcode & 0x0FFF;
+        PC = nnn;
         break;
 
       case 0x2000:
@@ -164,10 +186,20 @@ class Device {
 
       case 0x6000:
         //6xkk, puts kk into vx
+        int kk = opcode & 0x00FF;
+        int x = (opcode & 0x0F00) >> 8;
+
+        registers[x] = kk;
+
         break;
 
       case 0x7000:
         //7xkk, increments vx value by kk and store it in vx
+        int kk = opcode & 0x00FF;
+        int x = (opcode & 0x0F00) >> 8;
+
+        registers[x] += kk;
+
         break;
 
       case 0x8000: //0x8xyn
@@ -220,6 +252,8 @@ class Device {
 
       case 0xA000:
         //Annn, I register is set to nnn
+        int nnn = opcode & 0x0FFF;
+        I = nnn;
         break;
 
       case 0xB000:
@@ -231,7 +265,8 @@ class Device {
         break;
 
       case 0xD000:
-
+        turn_on(23, 23);
+        turn_off(24, 24);
         break;
 
       case 0xE000:

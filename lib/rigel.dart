@@ -18,7 +18,17 @@ class Rigel extends FlameGame {
     await device.init();
     screen = Display(200, 200, device.display);
     add(screen);
+  }
 
+
+  @override
+  void update(double dt){
+
+    super.update(dt);
+
+    for(int i = 0; i< 10; i++){
+      device.cycle();
+    }
   }
 
 

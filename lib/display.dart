@@ -21,7 +21,7 @@ class Display extends Component {
     for(int i = 0; i < 32; i++){
       for(int j = 0; j < 64; j++){
 
-        paint.color = display[i][j] == true ? const Color(0x00000000) : const Color(0xFFFFFFFF);
+        paint.color = display[i][j] == true ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
 
         canvas.drawRect(Rect.fromLTWH(j * pixelSize, i * pixelSize, pixelSize, pixelSize), paint);
 
