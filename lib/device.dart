@@ -100,15 +100,28 @@ class Device {
   }
 
 
-  void draw(int Vx, int Vy, int nibble){
-    //Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
+  void draw(int x, int y, int size) {
+  registers[0xF] = 0;
+  for (int row = 0; row < size; row++) {
+    int spriteByte = memory[I + row];
 
-    //The interpreter reads n bytes from memory, starting at the address stored in I. These bytes are then displayed as sprites on screen at coordinates (Vx, Vy)
-    //Sprites are XORed onto the existing screen. If this causes any pixels to be erased, VF is set to 1, otherwise it is set to 0. If the sprite is positioned so
-    //part of it is outside the coordinates of the display, it wraps around to the opposite side of the screen. See instruction 8xy3 for more information on XOR,
-    //and section 2.4, Display, for more information on the Chip-8 screen and sprites.
+    for (int col = 0; col < 8; col++) {
 
+      if ((spriteByte & (0x80 >> col)) != 0) {
+
+        int px = (x + col) % 64;
+        int py = (y + row) % 32;
+
+
+        if (display[py][px]) {
+          registers[0xF] = 1;
+        }
+
+        display[py][px] = !display[py][px];
+      }
+    }
   }
+}
 
 	
 	bool print_memory(){
@@ -154,7 +167,8 @@ class Device {
               clear_screen();
               break;
             case 0x00EE:
-              //pc = adress at the top of the stack, then sub 1 from SP first sub the set
+              SP--;
+              PC = stack[SP];
               break;
             default:
               error_message(opcode);
@@ -169,7 +183,10 @@ class Device {
         break;
 
       case 0x2000:
-        //The interpreter increments the stack pointer, then puts the current PC on the top of the stack. The PC is then set to nnn.
+        int nnn = opcode & 0x0FFF;
+        stack[SP] = PC;
+        SP++;
+        PC = nnn;
         break;
 
       case 0x3000:
@@ -265,8 +282,11 @@ class Device {
         break;
 
       case 0xD000:
-        turn_on(23, 23);
-        turn_off(24, 24);
+        //DXYN
+        int x = (opcode & 0x0F00) >> 8;
+        int y = (opcode & 0x00F0) >> 4;
+        int n = opcode & 0x000F;
+        draw(registers[x], registers[y], n);
         break;
 
       case 0xE000:
