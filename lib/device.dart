@@ -4,7 +4,7 @@ import 'dart:io';
 
 class Device {
 	
-	String romPath = "lib/chiplogo.ch8";
+	String romPath = "lib/AstroDodge.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
@@ -177,7 +177,6 @@ class Device {
         break;
 
       case 0x1000:
-        //set ps to nnn
         int nnn = opcode & 0x0FFF;
         PC = nnn;
         break;
@@ -190,33 +189,33 @@ class Device {
         break;
 
       case 0x3000:
-        //3xkk, if registers[x] == kk increment pc by 2
+        int x = (opcode & 0x0F00) >> 8;
+        int kk = (opcode & 0x00FF);
+        if(registers[x] == kk) PC += 2;
         break;
 
       case 0x4000:
-        //same as previous, but increments pc if different
+        int x = (opcode & 0x0F00) >> 8;
+        int kk = (opcode & 0x00FF);
+        if(registers[x] != kk) PC += 2;
         break;
 
       case 0x5000:
-        //5xyo, if vx == vy increment pc
+        int x = (opcode & 0x0F00) >> 8;
+        int y = (opcode & 0x00F0) >> 4;
+        if(registers[x] == registers[y]) PC += 2;
         break;
 
       case 0x6000:
-        //6xkk, puts kk into vx
         int kk = opcode & 0x00FF;
         int x = (opcode & 0x0F00) >> 8;
-
         registers[x] = kk;
-
         break;
 
       case 0x7000:
-        //7xkk, increments vx value by kk and store it in vx
         int kk = opcode & 0x00FF;
         int x = (opcode & 0x0F00) >> 8;
-
         registers[x] += kk;
-
         break;
 
       case 0x8000: //0x8xyn
@@ -264,17 +263,19 @@ class Device {
         break;
 
 			case 0x9000:
-        //9xy0, if vx != vy skip next instruction
+        int x = (opcode & 0x0F00) >> 8;
+        int y = (opcode & 0x00F0) >> 4;
+        if(registers[x] != registers[y]) PC += 2;
         break;
 
       case 0xA000:
-        //Annn, I register is set to nnn
         int nnn = opcode & 0x0FFF;
         I = nnn;
         break;
 
       case 0xB000:
-        //bnnn, pc is set to nnn plus V[0]
+        int nnn = opcode & 0x0FFF;
+        PC = nnn + registers[0];
         break;
 
       case 0xC000:
