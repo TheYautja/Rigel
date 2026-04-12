@@ -143,6 +143,11 @@ class Device {
 		return true;
 	}
 	
+
+	bool isOver8Bits(int n) {
+    return n < 0 || n > 255;
+  }
+
 	
 	void error_message(int opcode){
     print("error: unrecognized opcode at:" + opcode.toString());
@@ -221,39 +226,65 @@ class Device {
       case 0x8000: //0x8xyn
         switch(opcode & 0x000F){
           case 0x0:
-            //vx = vy
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
+            registers[x] = registers[y];
             break;
 
           case 0x1:
-            //vx OR vy
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
+            registers[x] = registers[x] | registers[y];
             break;
 
           case 0x2:
-            //vx AND vy
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
+            registers[x] = registers[x] & registers[y];
             break;
 
           case 0x3:
-            //vx XOR vy
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
+            registers[x] = registers[x] ^ registers[y];
             break;
 
           case 0x4:
-            //vx = vx + vy, set carry = true if the results exceed 8 bits
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
+            registers[x] += registers[y];  //a number bigger than 8 bits can currently be assigned to V[x], adress this later
+            if(isOver8Bits(registers[x])){
+              registers[0xF] = 1;
+            } else registers[0xF] = 0;
             break;
 
           case 0x5:
-            //vx = vx - vy, if vx > vy, carry flag is set to 1
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
+            registers[x] -= registers[y];
+            if(registers[x] > registers[y]){
+              registers[0xF] = 1;
+            }else registers[0xF] = 0;
             break;
 
           case 0x6:
-            //bitshifts, see later
+            int x = (opcode & 0xF000) >> 12;
+            if(isOver8Bits(registers[x] * 2)){
+              registers[0xF] = 1;
+            } else {
+              registers[0xF] = 0;
+              registers[x] *= 2;
+            }
             break;
 
           case 0x7:
-            //bitshifts, see later
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
             break;
 
           case 0xE:
-            //bitshifts, see later
+            int x = (opcode & 0xF000) >> 12;
+            int y = (opcode & 0x0F00) >> 8;
             break;
 
           default:
@@ -283,7 +314,6 @@ class Device {
         break;
 
       case 0xD000:
-        //DXYN
         int x = (opcode & 0x0F00) >> 8;
         int y = (opcode & 0x00F0) >> 4;
         int n = opcode & 0x000F;
@@ -303,27 +333,5 @@ class Device {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
