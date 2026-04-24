@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 import 'dart:io';
+import 'dart:math';
 
 
 class Device {
 	
-	String romPath = "lib/AstroDodge.ch8";
+	String romPath = "lib/chiplogo.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
@@ -310,7 +311,10 @@ class Device {
         break;
 
       case 0xC000:
-        //The interpreter generates a random number from 0 to 255, which is then ANDed with the value kk. The results are stored in Vx
+        int v = Random().nextInt(256);
+        int kk = (opcode & 0x00FF) >> 8;
+        int x = (opcode & 0xF000) >> 12;
+        registers[x] = v & kk;
         break;
 
       case 0xD000:
