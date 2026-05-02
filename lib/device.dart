@@ -163,177 +163,162 @@ class Device {
 	}
 	
 	
-	bool decode_opcode(){
-		int opcode = fetch_opcode();
-		switch(opcode & 0xF000 ){
+bool decode_opcode() {
+  int opcode = fetch_opcode();
 
-      case 0x0000:
-          switch(opcode & 0x00FF){
-            case 0x00E0:
-              clear_screen();
-              break;
-            case 0x00EE:
-              SP--;
-              PC = stack[SP];
-              break;
-            default:
-              error_message(opcode);
-              break;
-          }
-        break;
+  int x = (opcode & 0x0F00) >> 8;
+  int y = (opcode & 0x00F0) >> 4;
+  int nnn = opcode & 0x0FFF;
+  int kk = opcode & 0x00FF;
+  int n = opcode & 0x000F;
 
-      case 0x1000:
-        int nnn = opcode & 0x0FFF;
-        PC = nnn;
-        break;
+  switch (opcode & 0xF000) {
 
-      case 0x2000:
-        int nnn = opcode & 0x0FFF;
-        stack[SP] = PC;
-        SP++;
-        PC = nnn;
-        break;
+    case 0x0000:
+      switch (opcode & 0x00FF) {
+        case 0x00E0:
+          clear_screen();
+          break;
 
-      case 0x3000:
-        int x = (opcode & 0x0F00) >> 8;
-        int kk = (opcode & 0x00FF);
-        if(registers[x] == kk) PC += 2;
-        break;
+        case 0x00EE:
+          SP--;
+          PC = stack[SP];
+          break;
 
-      case 0x4000:
-        int x = (opcode & 0x0F00) >> 8;
-        int kk = (opcode & 0x00FF);
-        if(registers[x] != kk) PC += 2;
-        break;
+        default:
+          error_message(opcode);
+          break;
+      }
+      break;
 
-      case 0x5000:
-        int x = (opcode & 0x0F00) >> 8;
-        int y = (opcode & 0x00F0) >> 4;
-        if(registers[x] == registers[y]) PC += 2;
-        break;
+    case 0x1000:
+      PC = nnn;
+      break;
 
-      case 0x6000:
-        int kk = opcode & 0x00FF;
-        int x = (opcode & 0x0F00) >> 8;
-        registers[x] = kk;
-        break;
+    case 0x2000:
+      stack[SP++] = PC;
+      PC = nnn;
+      break;
 
-      case 0x7000:
-        int kk = opcode & 0x00FF;
-        int x = (opcode & 0x0F00) >> 8;
-        registers[x] += kk;
-        break;
+    case 0x3000:
+      if (registers[x] == kk) PC += 2;
+      break;
 
-      case 0x8000: //0x8xyn
-        switch(opcode & 0x000F){
-          case 0x0:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            registers[x] = registers[y];
-            break;
+    case 0x4000:
+      if (registers[x] != kk) PC += 2;
+      break;
 
-          case 0x1:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            registers[x] = registers[x] | registers[y];
-            break;
+    case 0x5000:
+      if (n == 0 && registers[x] == registers[y]) PC += 2;
+      break;
 
-          case 0x2:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            registers[x] = registers[x] & registers[y];
-            break;
+    case 0x6000:
+      registers[x] = kk;
+      break;
 
-          case 0x3:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            registers[x] = registers[x] ^ registers[y];
-            break;
+    case 0x7000:
+      registers[x] = (registers[x] + kk) & 0xFF;
+      break;
 
-          case 0x4:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            registers[x] += registers[y];  //a number bigger than 8 bits can currently be assigned to V[x], adress this later
-            if(isOver8Bits(registers[x])){
-              registers[0xF] = 1;
-            } else registers[0xF] = 0;
-            break;
+    case 0x8000:
+      switch (n) {
 
-          case 0x5:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            registers[x] -= registers[y];
-            if(registers[x] > registers[y]){
-              registers[0xF] = 1;
-            }else registers[0xF] = 0;
-            break;
+        case 0x0:
+          registers[x] = registers[y];
+          break;
 
-          case 0x6:
-            int x = (opcode & 0xF000) >> 12;
-            if(isOver8Bits(registers[x] * 2)){
-              registers[0xF] = 1;
-            } else {
-              registers[0xF] = 0;
-              registers[x] *= 2;
-            }
-            break;
+        case 0x1:
+          registers[x] |= registers[y];
+          break;
 
-          case 0x7:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            break;
+        case 0x2:
+          registers[x] &= registers[y];
+          break;
 
-          case 0xE:
-            int x = (opcode & 0xF000) >> 12;
-            int y = (opcode & 0x0F00) >> 8;
-            break;
+        case 0x3:
+          registers[x] ^= registers[y];
+          break;
 
-          default:
-            error_message(opcode);
-            break;
+        case 0x4: {
+          int sum = registers[x] + registers[y];
+          registers[0xF] = sum > 255 ? 1 : 0;
+          registers[x] = sum & 0xFF;
+          break;
         }
-        break;
 
-			case 0x9000:
-        int x = (opcode & 0x0F00) >> 8;
-        int y = (opcode & 0x00F0) >> 4;
-        if(registers[x] != registers[y]) PC += 2;
-        break;
+        case 0x5:
+          registers[0xF] = registers[x] > registers[y] ? 1 : 0;
+          registers[x] = (registers[x] - registers[y]) & 0xFF;
+          break;
 
-      case 0xA000:
-        int nnn = opcode & 0x0FFF;
-        I = nnn;
-        break;
+        case 0x6:
+          registers[0xF] = registers[x] & 0x1;
+          registers[x] >>= 1;
+          break;
 
-      case 0xB000:
-        int nnn = opcode & 0x0FFF;
-        PC = nnn + registers[0];
-        break;
+        case 0x7:
+          registers[0xF] = registers[y] > registers[x] ? 1 : 0;
+          registers[x] = (registers[y] - registers[x]) & 0xFF;
+          break;
 
-      case 0xC000:
-        int v = Random().nextInt(256);
-        int kk = (opcode & 0x00FF) >> 8;
-        int x = (opcode & 0xF000) >> 12;
-        registers[x] = v & kk;
-        break;
+        case 0xE:
+          registers[0xF] = (registers[x] & 0x80) >> 7;
+          registers[x] = (registers[x] << 1) & 0xFF;
+          break;
 
-      case 0xD000:
-        int x = (opcode & 0x0F00) >> 8;
-        int y = (opcode & 0x00F0) >> 4;
-        int n = opcode & 0x000F;
-        draw(registers[x], registers[y], n);
-        break;
+        default:
+          error_message(opcode);
+          break;
+      }
+      break;
 
-      case 0xE000:
+    case 0x9000:
+      if (n == 0 && registers[x] != registers[y]) PC += 2;
+      break;
 
-        break;
+    case 0xA000:
+      I = nnn;
+      break;
 
-      case 0xF000:
+    case 0xB000:
+      PC = nnn + registers[0];
+      break;
 
-        break;
-		}
-		return true;
-	}
+    case 0xC000:
+      registers[x] = Random().nextInt(256) & kk;
+      break;
+
+    case 0xD000:
+      draw(registers[x], registers[y], n);
+      break;
+
+    case 0xE000:
+      switch (opcode & 0x00FF) {
+        case 0x9E:
+          //
+          break;
+
+        case 0xA1:
+          //
+          break;
+
+        default:
+          error_message(opcode);
+          break;
+      }
+      break;
+
+    case 0xF000:
+      //
+      break;
+
+    default:
+      error_message(opcode);
+      break;
+  }
+
+  return true;
+}
 
 
 }
