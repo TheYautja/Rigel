@@ -11,6 +11,9 @@ class Rigel extends FlameGame {
   Device device = new Device();
   late Display screen;
 
+  double timerAcc = 0;
+  static const double timerStep = 1/60;
+
   late List<List<bool>> display;
 
   @override
@@ -29,7 +32,13 @@ class Rigel extends FlameGame {
     for(int i = 0; i< 10; i++){
       device.cycle();
     }
+
+   timerAcc += dt;
+
+   while(timerAcc >= timerStep){
+     device.update_timers();
+     timerAcc -= timerStep;
+    }
+
   }
-
-
 }

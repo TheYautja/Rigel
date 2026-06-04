@@ -2,19 +2,22 @@ import 'dart:typed_data';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 
 class Device {
 	
-	String romPath = "lib/chiplogo.ch8";
+	String romPath = "lib/AstroDodge.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
 	int I = 0;
   int SP = 0;
 	Uint16List stack = Uint16List(16);
-	//sound/display timers (60hz/s)
+	int delayTimer = 0;
+  int soundTimer = 0;
 	Uint8List registers = Uint8List(16);
 	List<List<bool>> display = List.generate(32, (_) => List.filled(64, false));
+  List<bool> keys = List.filled(16, false);
 	
 
   Future<void> init () async {
@@ -23,8 +26,65 @@ class Device {
   }
 
 
+  void update_timers(){
+    if (delayTimer > 0 ) delayTimer--;
+    if (soundTimer > 0) {
+      soundTimer--;
+      //play smthng;
+    };
+  }
+
+
   void cycle(){
     decode_opcode();
+  }
+
+
+  void keyDown(LogicalKeyboardKey key) {
+    switch (key.keyLabel.toUpperCase()) {
+
+      case '1': keys[0x1] = true; break;
+      case '2': keys[0x2] = true; break;
+      case '3': keys[0x3] = true; break;
+      case '4': keys[0xC] = true; break;
+      case 'Q': keys[0x4] = true; break;
+      case 'W': keys[0x5] = true; break;
+      case 'E': keys[0x6] = true; break;
+      case 'R': keys[0xD] = true; break;
+      case 'A': keys[0x7] = true; break;
+      case 'S': keys[0x8] = true; break;
+      case 'D': keys[0x9] = true; break;
+      case 'F': keys[0xE] = true; break;
+      case 'Z': keys[0xA] = true; break;
+      case 'X': keys[0x0] = true; break;
+      case 'C': keys[0xB] = true; break;
+      case 'V': keys[0xF] = true; break;
+
+    }
+  }
+
+
+  void keyUp(LogicalKeyboardKey key) {
+    switch (key.keyLabel.toUpperCase()) {
+
+      case '1': keys[0x1] = false; break;
+      case '2': keys[0x2] = false; break;
+      case '3': keys[0x3] = false; break;
+      case '4': keys[0xC] = false; break;
+      case 'Q': keys[0x4] = false; break;
+      case 'W': keys[0x5] = false; break;
+      case 'E': keys[0x6] = false; break;
+      case 'R': keys[0xD] = false; break;
+      case 'A': keys[0x7] = false; break;
+      case 'S': keys[0x8] = false; break;
+      case 'D': keys[0x9] = false; break;
+      case 'F': keys[0xE] = false; break;
+      case 'Z': keys[0xA] = false; break;
+      case 'X': keys[0x0] = false; break;
+      case 'C': keys[0xB] = false; break;
+      case 'V': keys[0xF] = false; break;
+
+    }
   }
 
 
@@ -293,33 +353,97 @@ bool decode_opcode() {
       break;
 
     case 0xE000:
-      switch (opcode & 0x00FF) {
-        case 0x9E:
-          //
-          break;
+    switch (opcode & 0x00FF) {
 
-        case 0xA1:
-          //
-          break;
+      case 0x9E:
+        if (keys[registers[x]]) {
+          PC += 2;
+        }
+        break;
 
-        default:
-          error_message(opcode);
-          break;
-      }
-      break;
+      case 0xA1:
+        if (!keys[registers[x]]) {
+          PC += 2;
+        }
+        break;
+
+      default:
+        error_message(opcode);
+        break;
+    }
+    break;
 
     case 0xF000:
-      //
-      break;
 
-    default:
-      error_message(opcode);
-      break;
+    switch (opcode & 0x00FF) {
+
+      case 0x07:
+        registers[x] = delayTimer;
+        break;
+
+      case 0x0A:
+        bool keyPressed = false;
+
+        for (int i = 0; i < 16; i++) {
+          if (keys[i]) {
+            registers[x] = i;
+            keyPressed = true;
+            break;
+          }
+        }
+
+        if (!keyPressed) {
+          PC -= 2;
+        }
+        break;
+
+      case 0x15:
+        delayTimer = registers[x];
+        break;
+
+      case 0x18:
+        soundTimer = registers[x];
+        break;
+
+
+      case 0x1E:
+        I += registers[x];
+        break;
+
+
+      case 0x29:
+        I = registers[x] * 5;
+        break;
+
+      case 0x33:
+        memory[I]     = registers[x] ~/ 100;
+        memory[I + 1] = (registers[x] ~/ 10) % 10;
+        memory[I + 2] = registers[x] % 10;
+        break;
+
+      case 0x55:
+        for (int i = 0; i <= x; i++) {
+          memory[I + i] = registers[i];
+        }
+        break;
+
+      case 0x65:
+        for (int i = 0; i <= x; i++) {
+          registers[i] = memory[I + i];
+        }
+        break;
+
+      default:
+        error_message(opcode);
+        break;
+    }
+
+  break;
   }
 
   return true;
-}
 
+  }
 
 }
 
