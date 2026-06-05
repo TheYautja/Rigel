@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 class Device {
 	
-	String romPath = "lib/AstroDodge.ch8";
+	String romPath = "roms/games/Tron.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
