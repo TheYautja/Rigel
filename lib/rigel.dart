@@ -1,16 +1,24 @@
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
+import "utils.dart";
 import 'device.dart';
 import 'display.dart';
 
 class Rigel extends FlameGame {
+
   final Device device = Device();
-
   late Display screen;
-
   double timerAcc = 0.0;
   static const double timerStep = 1 / 60;
+
+  double width = 0;
+  double height = 0;
+  double pixelWidth = 0;
+  double pixelHeight = 0;
+
+  Rigel(this.width, this.height, this.pixelWidth, this.pixelHeight);
+
 
   static final Map<LogicalKeyboardKey, int> keyMap = {
     LogicalKeyboardKey.digit1: 0x1,
@@ -39,9 +47,11 @@ class Rigel extends FlameGame {
     await device.init();
 
     screen = Display(
-      200,
-      200,
+      width,
+      height,
       device.display,
+      pixelWidth,
+      pixelHeight,
     );
 
     add(screen);

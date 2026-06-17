@@ -4,14 +4,14 @@ import 'package:flame/game.dart';
 
 class Display extends Component {
 
-  double width = 0;
-  double height = 0;
-  double pixelSize = 18;
+  double width;
+  double height;
+  double pixelWidth;
+  double pixelHeight;
 
   late List<List<bool>> display;
 
-  Display(this.width, this.height, this.display);
-
+  Display(this.width, this.height, this.display, this.pixelWidth, this.pixelHeight);
 
   @override
   void render(Canvas canvas){
@@ -23,7 +23,7 @@ class Display extends Component {
 
         paint.color = display[i][j] == true ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
 
-        canvas.drawRect(Rect.fromLTWH(j * pixelSize, i * pixelSize, pixelSize, pixelSize), paint);
+        canvas.drawRect(Rect.fromLTWH(j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight), paint);
 
       }
     }
