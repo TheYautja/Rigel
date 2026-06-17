@@ -1,28 +1,40 @@
 import 'dart:typed_data';
 import 'dart:io';
 import 'dart:math';
+import "package:flutter/services.dart";
 
-import 'package:flutter/services.dart';
 
 class Device {
 	
-	String romPath = "roms/games/Cave.ch8";
+    String romPath = " ";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
 	int I = 0;
-  int SP = 0;
+    int SP = 0;
 	Uint16List stack = Uint16List(16);
 	int delayTimer = 0;
-  int soundTimer = 0;
+    int soundTimer = 0;
 	Uint8List registers = Uint8List(16);
 	List<List<bool>> display = List.generate(32, (_) => List.filled(64, false));
-  List<bool> keys = List.filled(16, false);
+    List<bool> keys = List.filled(16, false);
 	
 
   Future<void> init () async {
+    await get_rom_path();
     await load_font_into_memory();
     await load_rom_into_memory();
+  }
+
+
+  Future<void> get_rom_path() async {
+    
+    if(Platform.isAndroid){
+        romPath = await rootBundle.load("lib/roms/games/Cave.ch8").toString();
+    }else {
+    	romPath = "lib/roms/games/Cave.ch8";
+    }
+
   }
 
 
