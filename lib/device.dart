@@ -21,18 +21,20 @@ class Device {
 	
 
   Future<void> init () async {
-    await get_rom_path();
+    await get_rom();
     await load_font_into_memory();
     await load_rom_into_memory();
   }
 
 
-  Future<void> get_rom_path() async {
+  Future<dynamic> get_rom() async {
     
     if(Platform.isAndroid){
-        romPath = await rootBundle.load("lib/roms/games/Cave.ch8").toString();
+        ByteData romData = await rootBundle.load("roms/games/Cave.ch8");
+        return romData;
     }else {
-    	romPath = "lib/roms/games/Cave.ch8";
+    	romPath = "roms/games/Cave.ch8";
+        return romPath;
     }
 
   }
@@ -143,13 +145,22 @@ class Device {
 	
 	
 	Future<bool> load_rom_into_memory() async {
-		var rom = File(romPath);
 		
-		var temp = await rom.readAsBytes();
-		for(int i = 0; i < temp.length; i++){
-			memory[ROM_START + i] = temp[i];
-		}
-		
+        if(Platform.isAndroid){
+
+            ByteData romData = await get_rom();
+
+            for(int i = 0; i < romData.lengthInBytes(); i++){
+                memory[ROM_START + i] = romData.getUint8(i);
+            }
+        }else {
+            var rom = File(romPath);
+            var temp = await rom.readAsBytes();
+            for(int i = 0; i < temp.length; i++){
+                memory[ROM_START + i] = temp[i];
+            }
+
+        }	
 		return true;
 	}
 	
