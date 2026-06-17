@@ -6,7 +6,7 @@ import "package:flutter/services.dart";
 
 class Device {
 	
-    String romPath = " ";
+    String rom = "roms/games/Cave.ch8";
 	Uint8List memory = Uint8List(4096);
 	static const int ROM_START = 0x200;
 	int PC = ROM_START;
@@ -27,14 +27,13 @@ class Device {
   }
 
 
-  Future<dynamic> get_rom() async {
+  Future<Uint8List> get_rom() async {
     
     if(Platform.isAndroid){
-        ByteData romData = await rootBundle.load("roms/games/Cave.ch8");
-        return romData;
+        ByteData romData = await rootBundle.load(rom);
+        return romData.buffer.asUint8List(romData.offsetInBytes, romData.lengthInBytes);
     }else {
-    	romPath = "roms/games/Cave.ch8";
-        return romPath;
+    	return await File(rom).readAsBytes();
     }
 
   }
@@ -144,25 +143,14 @@ class Device {
 	}
 	
 	
-	Future<bool> load_rom_into_memory() async {
+	Future<void> load_rom_into_memory() async {
 		
-        if(Platform.isAndroid){
+        var data = await get_rom();
+        for(int i = 0; i < data.length; i++){
+            memory[ROM_START + i] = data[i];
+        }
 
-            ByteData romData = await get_rom();
-
-            for(int i = 0; i < romData.lengthInBytes(); i++){
-                memory[ROM_START + i] = romData.getUint8(i);
-            }
-        }else {
-            var rom = File(romPath);
-            var temp = await rom.readAsBytes();
-            for(int i = 0; i < temp.length; i++){
-                memory[ROM_START + i] = temp[i];
-            }
-
-        }	
-		return true;
-	}
+    }
 	
 
 	void turn_on(int x, int y){
