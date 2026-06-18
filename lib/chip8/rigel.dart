@@ -1,7 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
-import "utils.dart";
 import 'device.dart';
 import 'display.dart';
 

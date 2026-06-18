@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'dart:io';
 
-import "rigel.dart";
+import "../chip8/rigel.dart";
 
-class Ui extends StatelessWidget {
+class DesktopUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){ //list lagging a little, see later

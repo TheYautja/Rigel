@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:window_size/window_size.dart';
 
-import "ui.dart";
+import "desktop/desktopUI.dart";
 
 void main() {
 
@@ -21,7 +21,19 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Ui(),
+        body: LayoutBuilder(
+            builder: (context, constraints){
+                
+                if(constraints.maxWidth < 600){
+                    return MobileUI();
+                } else if (constraints.maxWidth > 1200){
+                    return DesktopUI();
+                } else {
+                    return Text("Soon :D");
+                }
+
+            }
+        ),
       ),
     ),
   );
