@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:window_size/window_size.dart';
 
 import "desktop/desktopUI.dart";
+import "mobile/mobileUI.dart";
 
 void main() {
 
