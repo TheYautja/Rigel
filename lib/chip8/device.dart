@@ -16,7 +16,7 @@ class Device {
 	int delayTimer = 0;
     int soundTimer = 0;
 	Uint8List registers = Uint8List(16);
-	List<List<bool>> display = List.generate(32, (_) => List.filled(64, false));
+	Uint8List display = Uint8List(64 * 32);
     List<bool> keys = List.filled(16, false);
 	
 
@@ -127,20 +127,7 @@ class Device {
 		for(int i = 0; i < font.length; i++){
 			memory[i] = font[i];
 		}
-	}
-	
-	
-	bool print_display_state(){
-		String line = "";
-		for(int i = 0; i < 32; i++){
-			for(int j = 0; j < 64; j++){
-				line += display[i][j].toString() + " ";
-			}
-			print(line);
-			line = "";
-		}
-		return true;
-	}
+	}	
 	
 	
 	Future<void> load_rom_into_memory() async {
@@ -153,20 +140,10 @@ class Device {
     }
 	
 
-	void turn_on(int x, int y){
-    display[y][x] = true;
-  }
-
-
-  void turn_off(int x, int y){
-    display[y][x] = false;
-  }
-
-
   void clear_screen(){
     for(int i = 0; i < 32; i++){
       for(int j = 0; j < 64; j++){
-        display[i][j] = false;
+        display[i * 64 + j] = 0;
       }
     }
   }
@@ -184,12 +161,13 @@ class Device {
         int px = (x + col) % 64;
         int py = (y + row) % 32;
 
+        final index = py * 64 + px;
 
-        if (display[py][px]) {
+        if (display[index] == 1) {
           registers[0xF] = 1;
         }
 
-        display[py][px] = !display[py][px];
+        display[index] ^= 1;
       }
     }
   }
