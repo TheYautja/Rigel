@@ -7,12 +7,12 @@ import "../chip8/rigel.dart";
 class DesktopUI extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context){ //list lagging a little, see later
+  Widget build(BuildContext context){
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    double dWidth = width / 2;
-    double dHeight = height / 2;
+    double dWidth = width / 1.2;
+    double dHeight = height / 1.2;
     
     double pixelWidth = dWidth/64;
     double pixelHeight = dHeight/32;

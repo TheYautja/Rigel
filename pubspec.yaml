@@ -5,7 +5,7 @@ repository: https://github.com/TheYautja/Rigel
 
 flutter:
   assets:
-    - roms/games/Cave.ch8
+    - roms/games/
 
 environment:
   sdk: ^3.11.0
@@ -14,8 +14,7 @@ environment:
 dependencies:
   flame: ^1.36.0
   path: ^1.9.0
-  raylib: ^0.3.0
-  window_size: ^0.1.0
+  sensors_plus: 7.0.0
 
 dev_dependencies:
   lints: ^6.0.0
