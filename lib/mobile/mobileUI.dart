@@ -3,7 +3,7 @@ import 'package:flame/game.dart';
 import 'dart:io';
 
 import "../chip8/rigel.dart";
-
+import "accelerometertest.dart";
 
 
 class MobileUI extends StatelessWidget{
@@ -23,6 +23,7 @@ class MobileUI extends StatelessWidget{
                 Expanded(
                     child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight)),
                 ),
+                Acc(),
             ]
         );
 
