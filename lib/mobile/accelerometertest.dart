@@ -15,6 +15,8 @@ class Acc extends StatefulWidget {
 class _AccState extends State<Acc> {
 
     double x = 0;
+    double y = 0;
+    double z = 0;
 
     @override 
     void initState() {
@@ -23,6 +25,8 @@ class _AccState extends State<Acc> {
         accelerometerEventStream().listen((event) {
             setState((){
                 x = event.x;
+                y = event.y;
+                z = event.z;
             });
         });
 
@@ -31,7 +35,12 @@ class _AccState extends State<Acc> {
 
     @override 
     Widget build(BuildContext context){
-        return Text(x.toString());
+        return Column(
+            children: [
+                Text(x.toString()),
+                Text(y.toString()),
+                Text(z.toString()),
+            ]);
     }
 
 }

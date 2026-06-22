@@ -16,12 +16,10 @@ void main() {
         body: LayoutBuilder(
             builder: (context, constraints){
                 
-                if(Platform.isAndroid){
+                if(Platform.isAndroid | Platform.isIOS){
                     return MobileUI();
-               } else if (Platform.isLinux | Platform.isMacOS | Platform.isMacOS){
+               } else {
                     return DesktopUI();
-                } else {
-                    return Text("Soon :D");
                 }
 
             }
