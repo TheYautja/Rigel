@@ -6,7 +6,8 @@ import 'display.dart';
 
 class Rigel extends FlameGame {
 
-  final Device device = Device();
+  String rom = " ";
+  late final Device device = Device(rom);
   late Display screen;
   double timerAcc = 0.0;
   static const double timerStep = 1 / 60;
@@ -16,7 +17,7 @@ class Rigel extends FlameGame {
   double pixelWidth = 0;
   double pixelHeight = 0;
 
-  Rigel(this.width, this.height, this.pixelWidth, this.pixelHeight);
+  Rigel(this.width, this.height, this.pixelWidth, this.pixelHeight, this.rom);
 
 
   static final Map<LogicalKeyboardKey, int> keyMap = {

@@ -9,6 +9,7 @@ import "inputButton.dart";
 
 class MobileUI extends StatelessWidget{
 
+
     @override
     Widget build(BuildContext context){
 
@@ -31,7 +32,7 @@ class MobileUI extends StatelessWidget{
                             Column(children:[InputButton("A", 5), InputButton("B", 6), InputButton("C", 7), InputButton("D", 8),]),
                         ],
                     ),
-                    Expanded( child :GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight))),
+                    Expanded( child :GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8"))),
                     Row(
                         children: [
                             Column(children:[InputButton("E", 9), InputButton("F", 10), InputButton("G", 11), InputButton("H", 12),]),

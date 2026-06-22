@@ -18,7 +18,10 @@ class Device {
 	Uint8List registers = Uint8List(16);
 	Uint8List display = Uint8List(64 * 32);
     List<bool> keys = List.filled(16, false);
-	
+
+
+    Device(this.rom);
+
 
   Future<void> init () async {
     await get_rom();

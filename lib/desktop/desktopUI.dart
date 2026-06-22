@@ -20,7 +20,7 @@ class DesktopUI extends StatelessWidget {
     return Row(
         children: [
             Expanded(
-                child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight)),
+                child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8")),
             ),
         ]
     );
