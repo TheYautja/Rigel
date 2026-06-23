@@ -6,6 +6,8 @@ import "../chip8/rigel.dart";
 
 class DesktopUI extends StatelessWidget {
 
+  List<bool> keys = List.filled(16, false);
+
   @override
   Widget build(BuildContext context){
 
@@ -20,7 +22,7 @@ class DesktopUI extends StatelessWidget {
     return Row(
         children: [
             Expanded(
-                child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8")),
+                child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8", keys)),
             ),
         ]
     );

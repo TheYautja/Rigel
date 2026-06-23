@@ -6,8 +6,10 @@ import 'display.dart';
 
 class Rigel extends FlameGame {
 
+
+  List<bool> keys = List.filled(16, false);
   String rom = " ";
-  late final Device device = Device(rom);
+  late final Device device = Device(rom, keys);
   late Display screen;
   double timerAcc = 0.0;
   static const double timerStep = 1 / 60;
@@ -17,7 +19,7 @@ class Rigel extends FlameGame {
   double pixelWidth = 0;
   double pixelHeight = 0;
 
-  Rigel(this.width, this.height, this.pixelWidth, this.pixelHeight, this.rom);
+  Rigel(this.width, this.height, this.pixelWidth, this.pixelHeight, this.rom, this.keys);
 
 
   static final Map<LogicalKeyboardKey, int> keyMap = {
@@ -42,6 +44,8 @@ class Rigel extends FlameGame {
     LogicalKeyboardKey.keyV: 0xF,
   };
 
+
+
   @override
   Future<void> onLoad() async {
     await device.init();
@@ -64,9 +68,11 @@ class Rigel extends FlameGame {
     final keyboard = HardwareKeyboard.instance;
 
     for (final entry in keyMap.entries) {
-      device.keys[entry.value] =
+      keys[entry.value] =
           keyboard.isLogicalKeyPressed(entry.key);
     }
+
+
 
     for (int i = 0; i < 10; i++) {
       device.cycle();
@@ -80,3 +86,4 @@ class Rigel extends FlameGame {
     }
   }
 }
+

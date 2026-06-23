@@ -7,8 +7,24 @@ import "accelerometertest.dart";
 import "inputButton.dart";
 
 
-class MobileUI extends StatelessWidget{
+class MobileUI extends StatefulWidget {
 
+    const MobileUI({super.key});
+
+    @override 
+    State<MobileUI> createState() => _MobileUIState();
+}
+
+
+class _MobileUIState extends State<MobileUI> {
+
+    List<bool> keys = List.filled(16, false); //only the initial state is being passed, check later
+
+    void click(int id){
+        setState(() {
+                  keys[id] = true;
+                });
+    }
 
     @override
     Widget build(BuildContext context){
@@ -28,15 +44,35 @@ class MobileUI extends StatelessWidget{
                 children: [
                     Row(
                         children: [
-                            Column(children:[InputButton("1", 1), InputButton("2", 2), InputButton("3", 3), InputButton("4", 4),]),
-                            Column(children:[InputButton("A", 5), InputButton("B", 6), InputButton("C", 7), InputButton("D", 8),]),
+                            Column(children:[
+                                ElevatedButton(child: Text("1"), onPressed: () => click(1)),
+                                ElevatedButton(child: Text("A"), onPressed: () => click(5)),
+                                ElevatedButton(child: Text("E"), onPressed: () => click(9)),
+                                ElevatedButton(child: Text("I"), onPressed: () => click(13)),
+                            ]),
+                            Column(children:[
+                                ElevatedButton(child: Text("2"), onPressed: () => click(2)),
+                                ElevatedButton(child: Text("B"), onPressed: () => click(6)),
+                                ElevatedButton(child: Text("F"), onPressed: () => click(10)),
+                                ElevatedButton(child: Text("J"), onPressed: () => click(14)),
+                            ]),
                         ],
                     ),
-                    Expanded( child :GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8"))),
+                    Expanded( child :GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8", keys))),
                     Row(
                         children: [
-                            Column(children:[InputButton("E", 9), InputButton("F", 10), InputButton("G", 11), InputButton("H", 12),]),
-                            Column(children:[InputButton("I", 13), InputButton("J", 14), InputButton("K", 15), InputButton("L", 16),]),
+                            Column(children:[
+                                ElevatedButton(child: Text("3"), onPressed: () => click(3)),
+                                ElevatedButton(child: Text("C"), onPressed: () => click(7)),
+                                ElevatedButton(child: Text("G"), onPressed: () => click(11)),
+                                ElevatedButton(child: Text("K"), onPressed: () => click(15)),
+                            ]),
+                            Column(children:[
+                                ElevatedButton(child: Text("4"), onPressed: () => click(4)),
+                                ElevatedButton(child: Text("D"), onPressed: () => click(8)),
+                                ElevatedButton(child: Text("H"), onPressed: () => click(12)),
+                                ElevatedButton(child: Text("L"), onPressed: () => click(16)),
+                            ]),
                         ],
 
                     ),

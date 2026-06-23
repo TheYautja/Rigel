@@ -20,7 +20,7 @@ class Device {
     List<bool> keys = List.filled(16, false);
 
 
-    Device(this.rom);
+    Device(this.rom, this.keys);
 
 
   Future<void> init () async {

@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 class InputButton extends StatelessWidget {
 
     String title = " ";
-    int id = 0;
+    int id = 0; 
 
     InputButton(this.title, this.id);
 
@@ -13,7 +13,7 @@ class InputButton extends StatelessWidget {
         return Expanded(
             child: 
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: (){},
                     child: Text(title),
                 ),
         );
