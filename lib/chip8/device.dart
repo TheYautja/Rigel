@@ -23,7 +23,7 @@ class Device {
     Device(this.rom, this.keys);
 
   void update_keys(List<bool> newkeys){
-    keys = newkeys;
+    keys = List.from(newkeys);
   }
 
   Future<void> init () async {
