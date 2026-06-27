@@ -7,23 +7,17 @@ import "accelerometertest.dart";
 import "inputButton.dart";
 
 
-class MobileUI extends StatefulWidget {
 
-    const MobileUI({super.key});
+class MobileUI extends StatelessWidget {
 
-    @override 
-    State<MobileUI> createState() => _MobileUIState();
-}
+    late Rigel rigel;
 
+    List<bool> keys = List.filled(16, false);
 
-class _MobileUIState extends State<MobileUI> {
-
-    List<bool> keys = List.filled(16, false); //only the initial state is being passed, check later
 
     void click(int id){
-        setState(() {
-                  keys[id] = true;
-                });
+        keys[id] = true;
+        rigel.update_keys(keys);
     }
 
     @override
@@ -39,6 +33,8 @@ class _MobileUIState extends State<MobileUI> {
 
             double pixelWidth = dWidth/64;
             double pixelHeight = dHeight/32;
+
+            rigel = Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8", keys);
 
             return Row(
                 children: [
@@ -58,7 +54,7 @@ class _MobileUIState extends State<MobileUI> {
                             ]),
                         ],
                     ),
-                    Expanded( child :GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8", keys))),
+                    Expanded( child :GameWidget(game: rigel)),
                     Row(
                         children: [
                             Column(children:[

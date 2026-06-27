@@ -21,6 +21,9 @@ class Rigel extends FlameGame {
 
   Rigel(this.width, this.height, this.pixelWidth, this.pixelHeight, this.rom, this.keys);
 
+  void update_keys(List<bool> newkeys){
+    keys = newkeys;
+  }
 
   static final Map<LogicalKeyboardKey, int> keyMap = {
     LogicalKeyboardKey.digit1: 0x1,

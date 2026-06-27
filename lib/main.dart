@@ -16,11 +16,11 @@ void main() {
         body: LayoutBuilder(
             builder: (context, constraints){
                 
-                if(Platform.isAndroid | Platform.isIOS){
+                //if(Platform.isAndroid | Platform.isIOS){
                     return MobileUI();
-               } else {
-                    return DesktopUI();
-                }
+               //} else {
+                    //return DesktopUI();
+                //}
 
             }
         ),

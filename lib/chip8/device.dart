@@ -22,6 +22,9 @@ class Device {
 
     Device(this.rom, this.keys);
 
+  void update_keys(List<bool> newkeys){
+    keys = newkeys;
+  }
 
   Future<void> init () async {
     await get_rom();
