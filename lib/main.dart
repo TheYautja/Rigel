@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
+import "package:flutter/services.dart";
 
 import "desktop/desktopUI.dart";
 import "mobile/mobileUI.dart";
 
-void main() {
+void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
 	runApp(
     MaterialApp(
@@ -15,12 +16,11 @@ void main() {
       home: Scaffold(
         body: LayoutBuilder(
             builder: (context, constraints){
-                
                 //if(Platform.isAndroid | Platform.isIOS){
                     return MobileUI();
                //} else {
-                    //return DesktopUI();
-                //}
+                   //return DesktopUI();
+               //}
 
             }
         ),

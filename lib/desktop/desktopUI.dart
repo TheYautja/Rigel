@@ -22,7 +22,7 @@ class DesktopUI extends StatelessWidget {
     return Row(
         children: [
             Expanded(
-                child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Tank.ch8", keys)),
+                child: GameWidget(game: Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Space Invaders [David Winter].ch8", keys)),
             ),
         ]
     );
