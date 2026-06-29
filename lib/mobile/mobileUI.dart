@@ -4,7 +4,7 @@ import 'dart:io';
 
 import "../chip8/rigel.dart";
 import "accelerometertest.dart";
-import "inputButton.dart";
+import "chip8Button.dart";
 
 
 
@@ -43,16 +43,16 @@ class MobileUI extends StatelessWidget {
                     Row(
                         children: [
                             Column(children:[
-                                GestureDetector(onTapDown: (_) => click(0), child: Expanded(child: Text("1"))),
-                                GestureDetector(onTapDown: (_) => click(4), onTapUp: (_) => click(0), child: Expanded(child: Text("A"))),
-                                GestureDetector(onTapDown: (_) => click(8), child: Expanded(child: Text("E"))),
-                                GestureDetector(onTapDown: (_) => click(12), child: Expanded(child: Text("I"))),
+                                GestureDetector(onTapDown: (_) => click(0), onTapUp: (_) => click(0), child: chip8Button("")),
+                                GestureDetector(onTapDown: (_) => click(4), onTapUp: (_) => click(4), child: Expanded(child: Text("A"))),
+                                GestureDetector(onTapDown: (_) => click(8), onTapUp: (_) => click(8), child: Expanded(child: Text("E"))),
+                                GestureDetector(onTapDown: (_) => click(12), onTapUp: (_) => click(12), child: Expanded(child: Text("I"))),
                             ]),
                             Column(children:[
-                                GestureDetector(onTapDown: (_) => click(1), child: Expanded(child: Text("2"))),
+                                GestureDetector(onTapDown: (_) => click(1), onTapUp: (_) => click(1), child: Expanded(child: Text("2"))),
                                 GestureDetector(onTapDown: (_) => click(5), onTapUp: (_) => click(5), child: Expanded(child: Text("B"))),
-                                GestureDetector(onTapDown: (_) => click(9), child: Expanded(child: Text("F"))),
-                                GestureDetector(onTapDown: (_) => click(13), child: Expanded(child: Text("J"))),
+                                GestureDetector(onTapDown: (_) => click(9), onTapUp: (_) => click(9), child: Expanded(child: Text("F"))),
+                                GestureDetector(onTapDown: (_) => click(13), onTapUp: (_) => click(13), child: Expanded(child: Text("J"))),
                             ]),
                         ],
                     ),
@@ -60,16 +60,16 @@ class MobileUI extends StatelessWidget {
                     Row(
                         children: [
                             Column(children:[
-                                GestureDetector(onTapDown: (_) => click(2), child: Expanded(child: Text("3"))),
+                                GestureDetector(onTapDown: (_) => click(2), onTapUp: (_) => click(2), child: Expanded(child: Text("3"))),
                                 GestureDetector(onTapDown: (_) => click(6), onTapUp: (_) => click(6), child: Expanded(child: Text("C"))),
-                                GestureDetector(onTapDown: (_) => click(10), child: Expanded(child: Text("G"))),
-                                GestureDetector(onTapDown: (_) => click(14), child: Expanded(child: Text("K"))), 
+                                GestureDetector(onTapDown: (_) => click(10), onTapUp: (_) => click(10), child: Expanded(child: Text("G"))),
+                                GestureDetector(onTapDown: (_) => click(14), onTapUp: (_) => click(14), child: Expanded(child: Text("K"))), 
                             ]),
                             Column(children:[
-                                GestureDetector(onTapDown: (_) => click(3), child: Expanded(child: Text("4"))),
-                                GestureDetector(onTapDown: (_) => click(7), child: Expanded(child: Text("D"))),
-                                GestureDetector(onTapDown: (_) => click(11), child: Expanded(child: Text("H"))),
-                                GestureDetector(onTapDown: (_) => click(15), child: Expanded(child: Text("L"))),
+                                GestureDetector(onTapDown: (_) => click(3), onTapUp: (_) => click(3), child: Expanded(child: Text("4"))),
+                                GestureDetector(onTapDown: (_) => click(7), onTapUp: (_) => click(7), child: Expanded(child: Text("D"))),
+                                GestureDetector(onTapDown: (_) => click(11), onTapUp: (_) => click(11), child: Expanded(child: Text("H"))),
+                                GestureDetector(onTapDown: (_) => click(15), onTapUp: (_) => click(15), child: Expanded(child: Text("L"))),
                             ]),
                         ],
 
