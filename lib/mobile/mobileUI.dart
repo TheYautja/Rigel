@@ -16,7 +16,7 @@ class MobileUI extends StatelessWidget {
 
 
     void click(int id){ //currently sets to 1 permanently, use a gestureDetector later?
-        keys[id] = true;
+        keys[id] = !keys[id];
         rigel.update_keys(keys);
     }
 
@@ -43,16 +43,16 @@ class MobileUI extends StatelessWidget {
                     Row(
                         children: [
                             Column(children:[
-                                ElevatedButton(child: Text("1"), onPressed: () => click(0)),
-                                ElevatedButton(child: Text("A"), onPressed: () => click(4)),
-                                ElevatedButton(child: Text("E"), onPressed: () => click(8)),
-                                ElevatedButton(child: Text("I"), onPressed: () => click(12)),
+                                GestureDetector(onTapDown: (_) => click(0), child: Expanded(child: Text("1"))),
+                                GestureDetector(onTapDown: (_) => click(4), child: Expanded(child: Text("A"))),
+                                GestureDetector(onTapDown: (_) => click(8), child: Expanded(child: Text("E"))),
+                                GestureDetector(onTapDown: (_) => click(12), child: Expanded(child: Text("I"))),
                             ]),
                             Column(children:[
-                                ElevatedButton(child: Text("2"), onPressed: () => click(1)),
-                                ElevatedButton(child: Text("B"), onPressed: () => click(5)),
-                                ElevatedButton(child: Text("F"), onPressed: () => click(9)),
-                                ElevatedButton(child: Text("J"), onPressed: () => click(13)),
+                                GestureDetector(onTapDown: (_) => click(1), child: Expanded(child: Text("2"))),
+                                GestureDetector(onTapDown: (_) => click(5), child: Expanded(child: Text("B"))),
+                                GestureDetector(onTapDown: (_) => click(9), child: Expanded(child: Text("F"))),
+                                GestureDetector(onTapDown: (_) => click(13), child: Expanded(child: Text("J"))),
                             ]),
                         ],
                     ),
@@ -60,16 +60,16 @@ class MobileUI extends StatelessWidget {
                     Row(
                         children: [
                             Column(children:[
-                                ElevatedButton(child: Text("3"), onPressed: () => click(2)),
-                                ElevatedButton(child: Text("C"), onPressed: () => click(6)),
-                                ElevatedButton(child: Text("G"), onPressed: () => click(10)),
-                                ElevatedButton(child: Text("K"), onPressed: () => click(14)),
+                                GestureDetector(onTapDown: (_) => click(2), child: Expanded(child: Text("3"))),
+                                GestureDetector(onTapDown: (_) => click(6), child: Expanded(child: Text("C"))),
+                                GestureDetector(onTapDown: (_) => click(10), child: Expanded(child: Text("G"))),
+                                GestureDetector(onTapDown: (_) => click(14), child: Expanded(child: Text("K"))), 
                             ]),
                             Column(children:[
-                                ElevatedButton(child: Text("4"), onPressed: () => click(3)),
-                                ElevatedButton(child: Text("D"), onPressed: () => click(7)),
-                                ElevatedButton(child: Text("H"), onPressed: () => click(11)),
-                                ElevatedButton(child: Text("L"), onPressed: () => click(15)),
+                                GestureDetector(onTapDown: (_) => click(3), child: Expanded(child: Text("4"))),
+                                GestureDetector(onTapDown: (_) => click(7), child: Expanded(child: Text("D"))),
+                                GestureDetector(onTapDown: (_) => click(11), child: Expanded(child: Text("H"))),
+                                GestureDetector(onTapDown: (_) => click(15), child: Expanded(child: Text("L"))),
                             ]),
                         ],
 
