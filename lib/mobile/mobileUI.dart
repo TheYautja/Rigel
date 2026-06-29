@@ -15,7 +15,7 @@ class MobileUI extends StatelessWidget {
     List<bool> keys = List.filled(16, false);
 
 
-    void click(int id){ //currently sets to 1 permanently, use a gestureDetector later?
+    void click(int id){
         keys[id] = !keys[id];
         rigel.update_keys(keys);
     }
@@ -33,7 +33,7 @@ class MobileUI extends StatelessWidget {
             double pixelWidth = dWidth/64;
             double pixelHeight = dHeight/32;
 
-            rigel = Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Space Invaders [David Winter].ch8", keys);
+            rigel = Rigel(dWidth, dHeight, pixelWidth, pixelHeight, "roms/games/Space Invaders [David Winter].ch8", keys); //if rom = SI handle acc logic ltr
 
             //if(incl > 4) click(1);
             //if(incl < -4) click(2);
@@ -44,13 +44,13 @@ class MobileUI extends StatelessWidget {
                         children: [
                             Column(children:[
                                 GestureDetector(onTapDown: (_) => click(0), child: Expanded(child: Text("1"))),
-                                GestureDetector(onTapDown: (_) => click(4), child: Expanded(child: Text("A"))),
+                                GestureDetector(onTapDown: (_) => click(4), onTapUp: (_) => click(0), child: Expanded(child: Text("A"))),
                                 GestureDetector(onTapDown: (_) => click(8), child: Expanded(child: Text("E"))),
                                 GestureDetector(onTapDown: (_) => click(12), child: Expanded(child: Text("I"))),
                             ]),
                             Column(children:[
                                 GestureDetector(onTapDown: (_) => click(1), child: Expanded(child: Text("2"))),
-                                GestureDetector(onTapDown: (_) => click(5), child: Expanded(child: Text("B"))),
+                                GestureDetector(onTapDown: (_) => click(5), onTapUp: (_) => click(5), child: Expanded(child: Text("B"))),
                                 GestureDetector(onTapDown: (_) => click(9), child: Expanded(child: Text("F"))),
                                 GestureDetector(onTapDown: (_) => click(13), child: Expanded(child: Text("J"))),
                             ]),
@@ -61,7 +61,7 @@ class MobileUI extends StatelessWidget {
                         children: [
                             Column(children:[
                                 GestureDetector(onTapDown: (_) => click(2), child: Expanded(child: Text("3"))),
-                                GestureDetector(onTapDown: (_) => click(6), child: Expanded(child: Text("C"))),
+                                GestureDetector(onTapDown: (_) => click(6), onTapUp: (_) => click(6), child: Expanded(child: Text("C"))),
                                 GestureDetector(onTapDown: (_) => click(10), child: Expanded(child: Text("G"))),
                                 GestureDetector(onTapDown: (_) => click(14), child: Expanded(child: Text("K"))), 
                             ]),
