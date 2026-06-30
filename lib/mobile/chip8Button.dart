@@ -8,9 +8,13 @@ class chip8Button extends StatelessWidget {
     chip8Button(this.title);
 
     Widget build(BuildContext context){
-       return ElevatedButton(
-            onPressed: (){},
-            child: Text(title),
+       return SizedBox(
+            width: 50,
+            height: 50,
+            child: Card(
+                color: Colors.white,
+                child: Text(title),
+            ),
         ); 
     }
 }

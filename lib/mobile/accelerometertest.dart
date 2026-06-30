@@ -35,12 +35,10 @@ class _AccState extends State<Acc> {
 
     @override 
     Widget build(BuildContext context){
-        return Column(
-            children: [
-                Text(x.toString()),
-                Text(y.toString()),
-                Text(z.toString()),
-            ]);
+        return SizedBox(
+            width: 1,
+            height: 1,
+        );
     }
 
 }
