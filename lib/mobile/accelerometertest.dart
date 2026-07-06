@@ -1,44 +1,54 @@
-import "dart:async";
-import 'package:flutter/material.dart';
-import "package:sensors_plus/sensors_plus.dart";
+import 'dart:async';
+import 'package:sensors_plus/sensors_plus.dart';
 
+class Acc {
+  final void Function(int) click;
+  final void Function(int) clear;
 
+  late final StreamSubscription<AccelerometerEvent> _sub;
 
-class Acc extends StatefulWidget {
+  static const double threshold = 2.5;
+  static const double shootThreshold = 0.5;
 
-    @override 
-    State<Acc> createState() => _AccState();
+  int _current = -1;
 
-}
+  Acc({
+    required this.click,
+    required this.clear,
+  });
 
+  void start() {
+    _sub = accelerometerEvents.listen(_handleEvent);
+  }
 
-class _AccState extends State<Acc> {
+  void stop() {
+    _sub.cancel();
+  }
 
-    double x = 0;
-    double y = 0;
-    double z = 0;
+  void _setKey(int key) {
+    if (_current == key) return;
 
-    @override 
-    void initState() {
-        super.initState();
-
-        accelerometerEventStream().listen((event) {
-            setState((){
-                x = event.x;
-                y = event.y;
-                z = event.z;
-            });
-        });
-
+    if (_current != -1) {
+      clear(_current);
     }
 
+    _current = key;
 
-    @override 
-    Widget build(BuildContext context){
-        return SizedBox(
-            width: 1,
-            height: 1,
-        );
+    if (key != -1) {
+      click(key);
     }
+  }
 
+  void _handleEvent(AccelerometerEvent e) {
+
+    if (e.y > threshold) {
+      _setKey(6);
+    } else if (e.x < -shootThreshold) {
+      _setKey(5);
+    } else if (e.y < -threshold) {
+      _setKey(4);
+    } else {
+      _setKey(-1);
+    }
+  }
 }

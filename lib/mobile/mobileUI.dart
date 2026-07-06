@@ -12,7 +12,10 @@ class MobileUI extends StatelessWidget {
     
     String rom = "roms/games/Space Invaders [David Winter].ch8";
     late Rigel rigel;
-    Acc acc = Acc();
+    late final Acc acc = Acc(
+        click: click,
+        clear: clear,
+    );
     List<bool> keys = List.filled(16, false);
 
 
@@ -27,11 +30,11 @@ class MobileUI extends StatelessWidget {
     }
 
     void playWithAccelerometer(){
-        switch(acc.y){
-            case 1:
+        //switch(acc.y){
+            //case 1:
             
-            break;
-        }
+            //break;
+        //}
     }
 
     @override
@@ -51,7 +54,7 @@ class MobileUI extends StatelessWidget {
             rigel = Rigel(dWidth, dHeight, pixelWidth, pixelHeight, rom, keys);
 
             if(rom == "roms/games/Space Invaders [David Winter].ch8"){
-                playWithAccelerometer();
+                acc.start();
             }
 
             return Row(
