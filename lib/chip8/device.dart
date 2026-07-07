@@ -180,31 +180,6 @@ class Device {
 }
 
 	
-	bool print_memory(){
-		
-		String line = "";
-		int count = 0;
-		
-		for(int i = 0; i < memory.length; i++){
-			line += " " + memory[i].toRadixString(16);
-			count++;
-			
-			if(count == 64){
-				print(line);
-				line = "";
-				count = 0;
-			}
-		}
-		
-		return true;
-	}
-	
-
-	bool isOver8Bits(int n) {
-    return n < 0 || n > 255;
-  }
-
-	
 	void error_message(int opcode){
     print("error: unrecognized opcode at:" + opcode.toString());
   }

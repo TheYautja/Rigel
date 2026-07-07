@@ -29,14 +29,6 @@ class MobileUI extends StatelessWidget {
         rigel.update_keys(keys);
     }
 
-    void playWithAccelerometer(){
-        //switch(acc.y){
-            //case 1:
-            
-            //break;
-        //}
-    }
-
     @override
     Widget build(BuildContext context){
 
