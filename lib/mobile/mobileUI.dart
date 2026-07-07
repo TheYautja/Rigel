@@ -32,16 +32,17 @@ class MobileUI extends StatelessWidget {
     @override
     Widget build(BuildContext context){
 
-        return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
 
-            double width = constraints.maxWidth;
-            double height = constraints.maxHeight;
 
-            double dWidth = width/1.5;
-            double dHeight = height/1.5;
+            double width = MediaQuery.of(context).size.width;
+            double height = MediaQuery.of(context).size.height;
+            double dWidth = width/1.8;
+            double dHeight = height/1.8;
 
             double pixelWidth = dWidth/64;
             double pixelHeight = dHeight/32;
+
+            double bW = width * 0.2 / 4;
 
             rigel = Rigel(dWidth, dHeight, pixelWidth, pixelHeight, rom, keys);
 
@@ -54,38 +55,38 @@ class MobileUI extends StatelessWidget {
                     Row(
                         children: [
                             Column(children:[
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(0),  onTapUp: (_) => clear(0),  child: chip8Button("1"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(4),  onTapUp: (_) => clear(4),  child: chip8Button("A"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(8),  onTapUp: (_) => clear(8),  child: chip8Button("E"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(12), onTapUp: (_) => clear(12), child: chip8Button("I"))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(0),  onTapUp: (_) => clear(0),  child: chip8Button("1", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(4),  onTapUp: (_) => clear(4),  child: chip8Button("A", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(8),  onTapUp: (_) => clear(8),  child: chip8Button("E", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(12), onTapUp: (_) => clear(12), child: chip8Button("I", bW, bW))),
                             ]),
                             Column(children:[
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(1),  onTapUp: (_) => clear(1),  child: chip8Button("2"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(5),  onTapUp: (_) => clear(5),  child: chip8Button("B"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(9),  onTapUp: (_) => clear(9),  child: chip8Button("F"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(13), onTapUp: (_) => clear(13), child: chip8Button("J"))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(1),  onTapUp: (_) => clear(1),  child: chip8Button("2", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(5),  onTapUp: (_) => clear(5),  child: chip8Button("B", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(9),  onTapUp: (_) => clear(9),  child: chip8Button("F", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(13), onTapUp: (_) => clear(13), child: chip8Button("J", bW, bW))),
                             ]),
                         ],
                     ),
-                    Expanded( child :GameWidget(game: rigel)),
+                    SizedBox(width: dWidth, height: dHeight, child: GameWidget(game: rigel)),
                     Row(
                         children: [
                             Column(children:[
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(2),  onTapUp: (_) => clear(2),  child: chip8Button("3"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(6),  onTapUp: (_) => clear(6),  child: chip8Button("C"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(10), onTapUp: (_) => clear(10), child: chip8Button("G"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(14), onTapUp: (_) => clear(14), child: chip8Button("K"))), 
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(2),  onTapUp: (_) => clear(2),  child: chip8Button("3", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(6),  onTapUp: (_) => clear(6),  child: chip8Button("C", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(10), onTapUp: (_) => clear(10), child: chip8Button("G", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(14), onTapUp: (_) => clear(14), child: chip8Button("K", bW, bW))), 
                             ]),
                             Column(children:[
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(3),  onTapUp: (_) => clear(3),  child: chip8Button("4"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(7),  onTapUp: (_) => clear(7),  child: chip8Button("D"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(11), onTapUp: (_) => clear(11), child: chip8Button("H"))),
-                                Expanded( child: GestureDetector(onTapDown: (_) => click(15), onTapUp: (_) => clear(15), child: chip8Button("L"))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(3),  onTapUp: (_) => clear(3),  child: chip8Button("4", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(7),  onTapUp: (_) => clear(7),  child: chip8Button("D", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(11), onTapUp: (_) => clear(11), child: chip8Button("H", bW, bW))),
+                                Expanded( child: GestureDetector(onTapDown: (_) => click(15), onTapUp: (_) => clear(15), child: chip8Button("L", bW, bW))),
                             ]),
                         ],
                     ),
                 ]
             );
-        });
+
     }
 }

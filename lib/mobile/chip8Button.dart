@@ -4,16 +4,18 @@ import "package:flutter/material.dart";
 class chip8Button extends StatelessWidget {
 
     late String title; 
+    late double width;
+    late double height;
 
-    chip8Button(this.title);
+    chip8Button(this.title, this.width, this.height);
 
     Widget build(BuildContext context){
        return SizedBox(
-            width: 50,
-            height: 50,
+            width: width,
+            height: height,
             child: Card(
                 color: Colors.white,
-                child: Text(title),
+                child: Center(child: Text(title)),
             ),
         ); 
     }
