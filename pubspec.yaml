@@ -4,6 +4,7 @@ version: 1.0.0
 repository: https://github.com/TheYautja/Rigel
 
 flutter:
+  uses-material-design: true
   assets:
     - roms/games/
 
