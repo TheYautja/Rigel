@@ -33,8 +33,6 @@ class MobileUI extends StatelessWidget {
     @override
     Widget build(BuildContext context){
 
-
-
             double width = MediaQuery.of(context).size.width;
             double height = MediaQuery.of(context).size.height;
             double dWidth = width/1.8;
@@ -55,6 +53,9 @@ class MobileUI extends StatelessWidget {
             return Scaffold(
                 appBar: AppBar(
                     title: Text("CHIP-8"),
+                    actions: [
+                        IconButton(onPressed: null, icon: Icon(Icons.settings)),
+                    ],
                 ),
                 body: Row(
                     children: [
