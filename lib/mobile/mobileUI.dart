@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'dart:io';
 
 import "../chip8/rigel.dart";
@@ -10,13 +12,15 @@ class MobileUI extends StatelessWidget {
 
     static String rom = "roms/games/Space Invaders [David Winter].ch8";
 
-    static const List<String> roms = [
-        "roms/games/Space Invaders [David Winter].ch8",
-        "roms/games/Breakout (Brix hack) [David Winter, 1997].ch8",
-        "roms/games/Tetris [Fran Dachille, 1991].ch8",
-        "roms/games/Pong (1 player).ch8",
-        "roms/games/Invaders.ch8",
-    ];
+    static Future<List<String>> getRoms() async{
+
+        final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+
+        return manifest.listAssets().where((path){
+            return path.startsWith("roms/games/") &&
+                   path.endsWith(".ch8");
+        }).toList()..sort();
+    }
 
     late Rigel rigel;
     late final Acc acc = Acc(
@@ -68,24 +72,35 @@ class MobileUI extends StatelessWidget {
             }
 
             return Scaffold(
+                backgroundColor: Color(0xFF202124),
                 appBar: AppBar(
-                    title: Text("CHIP-8"),
+                    title: Text("SAGE"),
                     actions: [
-                        PopupMenuButton<String>(
-                            icon: Icon(Icons.folder_open),
-                            onSelected: (value) => selectRom(context, value),
-                            itemBuilder: (context) => roms.map((path){
+                        FutureBuilder<List<String>>(
+                            future: getRoms(),
+                            builder: (context, snapshot){
 
-                                String name = path
-                                    .split("/")
-                                    .last
-                                    .replaceAll(".ch8", "");
+                                if(!snapshot.hasData){
+                                    return SizedBox();
+                                }
 
-                                return PopupMenuItem<String>(
-                                    value: path,
-                                    child: Text(name),
+                                return PopupMenuButton<String>(
+                                    icon: Icon(Icons.folder_open),
+                                    onSelected: (value) => selectRom(context, value),
+                                    itemBuilder: (context) => snapshot.data!.map((path){
+
+                                        String name = path
+                                            .split("/")
+                                            .last
+                                            .replaceAll(".ch8", "");
+
+                                        return PopupMenuItem<String>(
+                                            value: path,
+                                            child: Text(name),
+                                        );
+                                    }).toList(),
                                 );
-                            }).toList(),
+                            },
                         ),
                         IconButton(
                             onPressed: null,

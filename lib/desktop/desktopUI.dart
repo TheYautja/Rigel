@@ -40,7 +40,7 @@ class DesktopUI extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Chip8"),
+        title: const Text("SAGE Arcade Game Emulator"),
         leadingWidth: 160,
         leading: Padding(
           padding: const EdgeInsets.only(left: 8),

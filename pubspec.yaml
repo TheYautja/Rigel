@@ -1,5 +1,5 @@
-name: rigel
-description: A CHIP-8 interpreter made with flutter
+name: SAGE
+description: SAGE Arcade Game Emulator
 version: 1.0.0
 repository: https://github.com/TheYautja/Rigel
 
