@@ -74,7 +74,9 @@ class MobileUI extends StatelessWidget {
             return Scaffold(
                 backgroundColor: Color(0xFF202124),
                 appBar: AppBar(
-                    title: Text("SAGE"),
+                    toolbarHeight: 30,
+                    backgroundColor: const Color(0xFFa3a3a3) ,
+                    title: Text(" "),
                     actions: [
                         FutureBuilder<List<String>>(
                             future: getRoms(),
