@@ -38,6 +38,7 @@ class DesktopUI extends StatelessWidget {
     final double pixelHeight = height / 32;
 
     return Scaffold(
+      backgroundColor: Color(0xFF202124),
       appBar: AppBar(
         centerTitle: true,
         title: const Text("SAGE Arcade Game Emulator"),
