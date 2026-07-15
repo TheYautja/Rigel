@@ -74,7 +74,7 @@ class MobileUI extends StatelessWidget {
             return Scaffold(
                 backgroundColor: Color(0xFF202124),
                 appBar: AppBar(
-                    toolbarHeight: 30,
+                    toolbarHeight: 7,
                     backgroundColor: const Color(0xFFa3a3a3) ,
                     title: Text(" "),
                     actions: [
